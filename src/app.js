@@ -1,6 +1,9 @@
 const express=require('express')
 const path=require('path')
 const hbs=require('hbs')
+const geocode=require('./utils/geocode')
+const forecast=require('./utils/forecast')
+const port=process.env.PORT||3000
 
 const app=express()
 
@@ -40,14 +43,24 @@ app.get('/contact',(req,res)=>{
     res.send('Contact details')
 })
 
-app.get('/about',(req,res)=>{
-    res.send('About Me')
-})
 
 app.get('*',(req,res)=>{
     res.send('404!')
 })
 
-app.listen(3000,()=>{
+ geocode(req.query.address,(error,{latitude,longitude,location})=>{
+     if(error){
+         return res.send({error})
+     }
+
+     forecast(latitude,longitude,(error,forecast)=>{
+        if(error){
+            req.send({error})
+        }
+        
+     })
+ })
+
+app.listen(port,()=>{
     console.log('Server is runnig on Port 3000')
 });

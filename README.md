@@ -12,6 +12,7 @@ I learnt a lot of this in Node like:
 
 ## Tools and Technologies Used:
 - Node.js
+- DarkSky API
 - JSON
 - VS Code
 - JavaScript
